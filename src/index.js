@@ -177,14 +177,14 @@ async function renderResult() {
   if(STATE.camera.displayCanvas) {
     camera.drawCtx();
   }
-  
+
 
   // The null check makes sure the UI is not in the middle of changing to a
   // different model. If during model change, the result is from an old model,
   // which shouldn't be rendered.
   if (poses && poses.length > 0 && !STATE.isModelChanged) {
     if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify(poses)); 
+      ws.send(JSON.stringify(poses));
     }
     if(STATE.camera.displayCanvas) {
       camera.drawResults(poses);
@@ -211,10 +211,10 @@ async function app() {
     // return;
   }
 
-  let wsURL = 'wss://new-socket-server.herokuapp.com/:443'
+  let wsURL = 'wss://crosby-motion-track.herokuapp.com:443'
   if (urlParams.has('wsURL')) {
     wsURL = urlParams.get('wsURL')
-  } 
+  }
   setupWebSocket(wsURL);
   await setupDatGui(urlParams);
 
@@ -230,7 +230,7 @@ async function app() {
 
   renderPrediction();
 
-  
+
 };
 
 
