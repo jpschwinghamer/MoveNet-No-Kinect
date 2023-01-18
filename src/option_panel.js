@@ -70,7 +70,7 @@ export async function setupDatGui(urlParams) {
   if(!model) {
     model = 'movenet';
   }
-  console.log(model)
+  // console.log(model)
   let type = urlParams.get('type');
 
   switch (model) {
