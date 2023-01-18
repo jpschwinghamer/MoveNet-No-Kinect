@@ -211,7 +211,7 @@ async function app() {
     // return;
   }
 
-  let wsURL = 'wss://crosby-motion-track.herokuapp.com:443'
+  let wsURL = 'wss://crosby-motion-web-socket.herokuapp.com:443'
   if (urlParams.has('wsURL')) {
     wsURL = urlParams.get('wsURL')
   }

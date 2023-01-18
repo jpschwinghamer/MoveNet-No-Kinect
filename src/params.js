@@ -26,7 +26,7 @@ export const VIDEO_SIZE = {
   '360 X 270': {width: 368, height: 207}
 };
 export const STATE = {
-  ws: {wsURL: 'wss://crosby-motion-track.herokuapp.com:443', connect: () => {}},
+  ws: {wsURL: 'wss://crosby-motion-web-socket.herokuapp.com:443', connect: () => {}},
   camera: {targetFPS: 60, sizeOption: '640 X 480', displayCanvas: true},
   backend: '',
   flags: {},
