@@ -227,7 +227,7 @@ async function app() {
   detector = await createDetector();
 
   console.log('starting');
-
+  document.querySelector('aside').style.opacity = 0;
   renderPrediction();
 
 
@@ -241,7 +241,7 @@ function setupWebSocket(socketURL) {
   // let keepAliveId;
   ws.onopen = event => {
     console.log('Socket connection open');
-    alert('Successfully connected to socket server 🎉');
+    console.log('Successfully connected to socket server 🎉');
     ws.send('pong');
     // keepAliveId = setInterval(() => {
     //   wss.clients.forEach((client) => {

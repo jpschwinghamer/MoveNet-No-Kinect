@@ -33,6 +33,7 @@ const stringValueMap = {};
 export async function setupDatGui(urlParams) {
   const gui = new dat.GUI({width: 300});
   gui.domElement.id = 'gui';
+  gui.closed = true;
 
   // The camera folder contains options for video settings.
   const wsURL = urlParams.get('wsURL');
