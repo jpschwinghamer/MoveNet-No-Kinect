@@ -42,6 +42,11 @@ limitations under the License.
       margin: 0;
     }
 
+    .container {
+      display: grid;
+      place-items: center;
+    }
+
     #stats {
       display: none;
       position: relative;
@@ -65,6 +70,8 @@ limitations under the License.
       display: grid;
       place-items: center;
       background: #fafafa;
+      grid-row: 2;
+      grid-column: 1;
     }
 
     .canvas-wrapper > * {
@@ -74,6 +81,9 @@ limitations under the License.
 
     #scatter-gl-container {
       position: relative;
+      visibility: hidden;
+      grid-row: 2;
+      grid-column: 1;
     }
 
     aside {
