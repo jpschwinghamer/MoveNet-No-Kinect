@@ -64,7 +64,7 @@ limitations under the License.
 
     .canvas-wrapper {
       width: 640px;
-      height: 480px;
+      height: 360px;
       border-radius: 10px;
       overflow: hidden;
       display: grid;
@@ -91,6 +91,21 @@ limitations under the License.
       color: #00E107;
       color: color(display-p3 0.03 0.89 0.05);
       transition: opacity 0.2s;
+      animation: load 1s infinite
+    }
+
+    aside[data-active="false"]{
+      display: none;
+    }
+
+    @keyframes load {
+      0%, 100% {
+        opacity: 0
+      }
+      50% {
+        opacity: 1
+      }
+
     }
   </style>
   <link rel="styles">

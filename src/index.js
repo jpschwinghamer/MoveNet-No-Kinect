@@ -227,7 +227,7 @@ async function app() {
   detector = await createDetector();
 
   // console.log('starting');
-  document.querySelector('aside').style.opacity = 0;
+  document.querySelector('aside').dataset.active = false;
   renderPrediction();
 
 
