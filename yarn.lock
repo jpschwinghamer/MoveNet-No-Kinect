@@ -4722,13 +4722,6 @@ saxes@^3.1.9:
   dependencies:
     xmlchars "^2.1.1"
 
-scatter-gl@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/scatter-gl/-/scatter-gl-0.0.11.tgz#4a707f68a96b5cd5d166822c09116ac90e030dff"
-  integrity sha512-gJkTe1UbkFRMiOh+YyAG4TCnTN46vlnqOOJaPD9WDVDEuZOMjSnpwAXmSvg1tMtIRNRYJvOV1b9ru3xuIZC3Lg==
-  dependencies:
-    three "0.125"
-
 seedrandom@2.4.3:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/seedrandom/-/seedrandom-2.4.3.tgz#2438504dad33917314bff18ac4d794f16d6aaecc"

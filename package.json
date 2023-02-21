@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "stream movenet through websocket",
   "main": "index.js",
-  "author": "Torin Blankensmith",
+  "author": "Justin Schwinghamer",
   "license": "MIT",
   "private": false,
   "scripts": {
@@ -17,8 +17,7 @@
     "@tensorflow/tfjs-backend-webgl": "^3.10.0",
     "@tensorflow/tfjs-converter": "^3.10.0",
     "@tensorflow/tfjs-core": "^3.10.0",
-    "parcel-plugin-static-files-copy": "^2.6.0",
-    "scatter-gl": "^0.0.11"
+    "parcel-plugin-static-files-copy": "^2.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",

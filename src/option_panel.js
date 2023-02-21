@@ -1,28 +1,8 @@
-/**
- * @license
- * Copyright 2021 Google LLC. All Rights Reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * =============================================================================
- */
 import * as posedetection from '@tensorflow-models/pose-detection';
 import * as tf from '@tensorflow/tfjs-core';
-
 import * as params from './params';
 
-/**
- * Records each flag's default value under the runtime environment and is a
- * constant in runtime.
- */
+
 let TUNABLE_FLAG_DEFAULT_VALUE_MAP;
 
 let enableTrackingController;
@@ -30,12 +10,12 @@ let scoreThresholdController;
 
 const stringValueMap = {};
 
+
 export async function setupDatGui(urlParams) {
   const gui = new dat.GUI({width: 300});
   gui.domElement.id = 'gui';
   gui.closed = true;
 
-  // The camera folder contains options for video settings.
   const wsURL = urlParams.get('wsURL');
   if(wsURL) {
     params.STATE.ws.wsURL = wsURL;
@@ -48,7 +28,6 @@ export async function setupDatGui(urlParams) {
   connect.onChange(_ => {
     params.STATE.ws.isConnectWebSocketChanged = true;
   });
-  wsFolder.open();
 
   const cameraFolder = gui.addFolder('Camera');
   const fpsController = cameraFolder.add(params.STATE.camera, 'targetFPS');
@@ -61,17 +40,34 @@ export async function setupDatGui(urlParams) {
   sizeController.onChange(_ => {
     params.STATE.isSizeOptionChanged = true;
   });
-  cameraFolder.open();
 
-  // The model folder contains options for model selection.
+  let cameraInputs = {};
+  let getInputs = async () => {
+    let devices = await navigator.mediaDevices.enumerateDevices();
+    for(let device of devices){
+      if(device.kind == 'videoinput'){
+        cameraInputs[device.label] = device.deviceId;
+      }
+    }
+    params.STATE.inputs = cameraInputs;
+    params.STATE.camera.input = await Object.values(cameraInputs)[0];
+    const inputController = cameraFolder.add(params.STATE.camera, 'input', Object.values(cameraInputs));
+    inputController.onChange( () => {
+      params.STATE.isInputChanged = true;
+    })
+  };
+  getInputs();
+
+
   const modelFolder = gui.addFolder('Model');
-
   let model = urlParams.get('model');
   if(!model) {
     model = 'movenet';
   }
-  // console.log(model)
   let type = urlParams.get('type');
+  if(!type){
+    type = 'multipose'
+  }
 
   switch (model) {
     case 'posenet':
@@ -79,25 +75,11 @@ export async function setupDatGui(urlParams) {
       break;
     case 'movenet':
       params.STATE.model = posedetection.SupportedModels.MoveNet;
-      if (type !== 'lightning' && type !== 'thunder' && type !== 'multipose') {
-        // Nulify invalid value.
-        type = null;
-      }
-      break;
-    case 'blazepose':
-      params.STATE.model = posedetection.SupportedModels.BlazePose;
-      if (type !== 'full' && type !== 'lite' && type !== 'heavy') {
-        // Nulify invalid value.
-        type = null;
-      }
-      break;
-    default:
-      alert(`${urlParams.get('model')}`);
       break;
   }
 
   const modelController = modelFolder.add(
-      params.STATE, 'model', Object.values(posedetection.SupportedModels));
+      params.STATE, 'model', ['MoveNet', 'PoseNet']);
 
   modelController.onChange(_ => {
     params.STATE.isModelChanged = true;
@@ -107,13 +89,9 @@ export async function setupDatGui(urlParams) {
 
   showModelConfigs(modelFolder, type);
 
-  modelFolder.open();
-
   const backendFolder = gui.addFolder('Backend');
 
   showBackendConfigs(backendFolder);
-
-  backendFolder.open();
 
   return gui;
 }
@@ -140,9 +118,6 @@ async function showBackendConfigs(folderController) {
 }
 
 function showModelConfigs(folderController, type) {
-  // Clean up model configs for the previous model.
-  // The first constroller under the `folderController` is the model
-  // selection.
   const fixedSelectionCount = 1;
   while (folderController.__controllers.length > fixedSelectionCount) {
     folderController.remove(
@@ -157,16 +132,11 @@ function showModelConfigs(folderController, type) {
     case posedetection.SupportedModels.MoveNet:
       addMoveNetControllers(folderController, type);
       break;
-    case posedetection.SupportedModels.BlazePose:
-      addBlazePoseControllers(folderController, type);
-      break;
     default:
       alert(`Model ${params.STATE.model} is not supported.`);
   }
 }
 
-// The PoseNet model config folder contains options for PoseNet config
-// settings.
 function addPoseNetControllers(modelConfigFolder) {
   params.STATE.modelConfig = {...params.POSENET_CONFIG};
 
@@ -224,30 +194,6 @@ function addMoveNetControllers(modelConfigFolder, type) {
     // changing models.
     params.STATE.isModelChanged = true;
   })
-}
-
-// The BlazePose model config folder contains options for BlazePose config
-// settings.
-function addBlazePoseControllers(modelConfigFolder, type) {
-  params.STATE.modelConfig = {...params.BLAZEPOSE_CONFIG};
-  params.STATE.modelConfig.type = type != null ? type : 'full';
-
-  const typeController = modelConfigFolder.add(
-      params.STATE.modelConfig, 'type', ['lite', 'full', 'heavy']);
-  typeController.onChange(_ => {
-    // Set isModelChanged to true, so that we don't render any result during
-    // changing models.
-    params.STATE.isModelChanged = true;
-  });
-
-  modelConfigFolder.add(params.STATE.modelConfig, 'scoreThreshold', 0, 1);
-
-  const render3DController =
-      modelConfigFolder.add(params.STATE.modelConfig, 'render3D');
-  render3DController.onChange(render3D => {
-    document.querySelector('#scatter-gl-container').style.display =
-        render3D ? 'inline-block' : 'none';
-  });
 }
 
 /**

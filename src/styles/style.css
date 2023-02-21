@@ -1,0 +1,88 @@
+
+@font-face {
+    font-family: "cash-market-rounded";
+    src: url("https://cash-f.squarecdn.com/static/fonts/cash-market/v2/CashMarket-MediumRounded.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+
+html {
+    background: #00E107;
+    background: color(display-p3 0.03 0.89 0.05);
+    font-family: 'cash-market-rounded';
+    -webkit-font-smoothing: antialiased;
+    color: white;
+}
+
+h1 {
+    font-size: 2rem;
+    text-align: center;
+    letter-spacing: 0.01em;
+    margin-bottom: 1em;
+}
+
+body {
+    margin: 0;
+}
+
+.container {
+    display: grid;
+    place-items: center;
+}
+
+#main {
+    position: relative;
+    margin: 0;
+    display: grid;
+    height: 100vh;
+    place-items: center
+}
+
+.canvas-wrapper {
+    width: 640px;
+    height: 360px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    background: #fafafa;
+    grid-row: 2;
+    grid-column: 1;
+}
+
+.canvas-wrapper > * {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+
+aside {
+    font-size: 1.5rem;
+    color: #00E107;
+    color: color(display-p3 0.03 0.89 0.05);
+    transition: opacity 0.2s;
+    animation: load 1s infinite
+}
+
+aside[data-active="false"]{
+    display: none;
+}
+
+@keyframes load {
+    0%, 100% {
+    opacity: 0
+    }
+    50% {
+    opacity: 1
+    }
+
+}
+
+video {
+    transform: scaleX(-1);
+    visibility: hidden;
+    width: auto;
+    height: auto;
+
+}
+
